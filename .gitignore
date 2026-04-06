@@ -1,0 +1,13 @@
+# Local environment
+.conda/
+__pycache__/
+*.pyc
+*.pyo
+
+# Large local assets
+models/
+data/
+runs/
+
+# Local test leftovers
+*.Zone.Identifier
