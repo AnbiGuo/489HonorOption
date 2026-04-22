@@ -1,5 +1,6 @@
 # Local environment
 .conda/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -8,6 +9,7 @@ __pycache__/
 models/
 data/
 runs/
+outputs/
 
 # Local test leftovers
 *.Zone.Identifier

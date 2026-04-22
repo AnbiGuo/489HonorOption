@@ -105,6 +105,21 @@ The following paths were intentionally removed because they were only temporary 
 - ad hoc test images and shell leftovers
 
 ## 10. Recommended Next Step
-The clean next step is not to expand the dataset yet. It is to do one of the following:
-- build an error-analysis notebook or script that surfaces representative failure cases
-- add a simple relation-aware reranker on top of detector candidate boxes
+The project now has two additional follow-up scripts:
+
+- `scripts/run_relation_baseline_suite.py`
+  Runs full-prompt, target-only, and counterfactual-prompt comparisons on the cleaned benchmark.
+
+- `scripts/run_geometry_reranking_experiment.py`
+  Tests lightweight geometry-based reranking on top of detector candidate boxes, with either detected references or oracle references.
+
+The most important updated conclusion is:
+
+- the detector does not robustly use relation words by itself
+- simple reranking does not help much when the reference also has to be detected
+- once the reference is reliable, explicit geometry can produce a small improvement on some relations such as `near`
+
+So the most reasonable continuation is no longer just "try reranking" in the abstract. It is:
+
+- improve reference grounding
+- then apply relation-aware target-reference reranking

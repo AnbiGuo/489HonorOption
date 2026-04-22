@@ -14,13 +14,28 @@ This project studies whether an open-vocabulary detector can localize the correc
 - `docs/`: workflow summary and current experiment notes
 - `environment.yml`, `requirements_lock.txt`: local environment records
 
+Recent experiment scripts include:
+- `scripts/run_relation_baseline_suite.py`: compares full prompts, target-only prompts, and counterfactual relation prompts
+- `scripts/run_geometry_reranking_experiment.py`: tests lightweight geometry-based reranking on top of detector candidates
+
 ## Current Result Snapshot
 The first cleaned Visual Genome run used 93 samples. Automatic evaluation at IoU 0.5 produced:
 - `top1_acc@0.5 = 0.3441`
 - `any_hit_acc@0.5 = 0.4731`
 - `target_phrase_acc@0.5 = 0.4516`
 
-This suggests the detector is unstable under relation prompts, but it also finds the correct target in non-top-1 positions often enough to justify a later relation-aware reranking step.
+The follow-up relation-sensitivity analysis showed:
+- `target-only top1_acc@0.5 = 0.4301`
+- `counterfactual top1_acc@0.5 = 0.3441`
+- full-prompt vs. counterfactual same-top1-box rate `= 0.8280`
+
+This suggests the detector behaves much more like a noun-driven localizer than a relation-sensitive localizer.
+
+A small follow-up reranking study on the 2D-geometry-friendly relations (`above`, `below`, `near`, `next to`) found:
+- detected-reference reranking did not improve over the candidate baseline
+- oracle-reference reranking produced a small gain on the subset when applied selectively to `near`
+
+That pattern suggests explicit geometry can help, but reliable reference grounding is a major bottleneck.
 
 ## Notes
 Raw data, downloaded images, model weights, and run outputs are intentionally ignored in Git because they are large and can be regenerated locally.
